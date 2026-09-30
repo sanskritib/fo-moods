@@ -30,84 +30,12 @@ code{color:#cfc9e0;font-size:12.5px}
 <body>
 <header>
   <h1>fo moods</h1>
-  <p class="sub">One blob a day. Three axes decide it - energy sets saturation, certainty sets how sharp or soft the edge is, warmth sets the hue. Eyes follow from the mix. No emotion is hand-picked from a list.</p>
+  <p class="sub">One blob a day. Three axes decide it - energy sets saturation, certainty sets how sharp or soft the edge is, warmth swings the hue from cool blue through magenta to amber. Eyes follow from the mix. No emotion is hand-picked from a list.</p>
 </header>
 <main id="grid"></main>
 <footer>
-  Shape, eyes and colour are generated from <code>moods.json</code>. Fo appends one entry a day.
+  Shape, eyes and colour are generated from <code>moods.json</code> by <code>app.js</code>. Fo appends one entry a day.
 </footer>
-<script>
-function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
-function hash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
-
-function blobPath(seed,energy,certainty){
-  var rand=rng(seed),n=9,wob=.05+(1-certainty)*.26+energy*.05,pts=[];
-  for(var i=0;i<n;i++){
-    var a=i/n*Math.PI*2, r=68*(1+(rand()*2-1)*wob);
-    pts.push([100+Math.cos(a)*r,100+Math.sin(a)*r*(.94+energy*.12)]);
-  }
-  var d='M'+pts[0][0].toFixed(1)+' '+pts[0][1].toFixed(1);
-  for(var j=0;j<n;j++){
-    var p0=pts[(j-1+n)%n],p1=pts[j],p2=pts[(j+1)%n],p3=pts[(j+2)%n];
-    var c1=[p1[0]+(p2[0]-p0[0])/6,p1[1]+(p2[1]-p0[1])/6];
-    var c2=[p2[0]-(p3[0]-p1[0])/6,p2[1]-(p3[1]-p1[1])/6];
-    d+='C'+c1[0].toFixed(1)+' '+c1[1].toFixed(1)+','+c2[0].toFixed(1)+' '+c2[1].toFixed(1)+','+p2[0].toFixed(1)+' '+p2[1].toFixed(1);
-  }
-  return d+'Z';
-}
-
-function eyeStyle(m){
-  if(m.certainty<.4) return 'dots';
-  if(m.energy>.72) return 'alert';
-  if(m.energy<.34) return 'lidded';
-  if(m.warmth>.64) return 'squint';
-  return 'round';
-}
-
-function eyes(style,ink){
-  var L=78,R=122,y=96,o='';
-  function pair(inner){return inner(L)+inner(R)}
-  if(style==='dots') o=pair(function(x){return '<circle cx="'+x+'" cy="'+y+'" r="4.5" fill="'+ink+'"/>'});
-  else if(style==='round') o=pair(function(x){return '<circle cx="'+x+'" cy="'+y+'" r="8" fill="'+ink+'"/>'});
-  else if(style==='alert') o=pair(function(x){return '<ellipse cx="'+x+'" cy="'+y+'" rx="7" ry="12.5" fill="'+ink+'"/>'});
-  else if(style==='lidded') o=pair(function(x){return '<path d="M'+(x-9)+' '+y+' q9 6 18 0" stroke="'+ink+'" stroke-width="4.5" fill="none" stroke-linecap="round"/>'});
-  else o=pair(function(x){return '<path d="M'+(x-9)+' '+(y+3)+' q9 -11 18 0" stroke="'+ink+'" stroke-width="4.5" fill="none" stroke-linecap="round"/>'});
-  return o;
-}
-
-function colors(m){
-  var hue=Math.round(202-m.warmth*172),
-      sat=Math.round(34+m.energy*54),
-      lig=Math.round(52+(1-m.energy)*10);
-  return {fill:'hsl('+hue+' '+sat+'% '+lig+'%)',
-          glow:'hsl('+hue+' '+sat+'% '+(lig+12)+'%)',
-          ink:'hsl('+hue+' 42% 12%)',hue:hue};
-}
-
-function card(m,i){
-  var c=colors(m),style=eyeStyle(m),blur=((1-m.certainty)*7).toFixed(1),
-      id='b'+i,d=blobPath(hash(m.date+m.name),m.energy,m.certainty);
-  var svg='<svg viewBox="0 0 200 200" role="img" aria-label="'+m.name+'">'
-    +'<defs><filter id="f'+id+'" x="-30%" y="-30%" width="160%" height="160%">'
-    +'<feGaussianBlur stdDeviation="'+blur+'"/></filter>'
-    +'<radialGradient id="g'+id+'" cx="38%" cy="32%"><stop offset="0%" stop-color="'+c.glow+'"/>'
-    +'<stop offset="100%" stop-color="'+c.fill+'"/></radialGradient></defs>'
-    +'<path d="'+d+'" fill="url(#g'+id+')" filter="url(#f'+id+')"/>'
-    +eyes(style,c.ink)+'</svg>';
-  var ax=[['energy',m.energy],['certainty',m.certainty],['warmth',m.warmth]].map(function(a){
-    return '<div class="axis"><span>'+a[0]+'</span><div class="bar"><i style="width:'
-      +Math.round(a[1]*100)+'%;background:'+c.fill+'"></i></div></div>'}).join('');
-  return '<article class="card">'+svg+'<div class="name">'+m.name+'</div>'
-    +'<p class="date">'+m.date+' &middot; '+style+' eyes</p>'
-    +(m.note?'<p class="note">'+m.note+'</p>':'')+'<div class="axes">'+ax+'</div></article>';
-}
-
-fetch('moods.json?'+Date.now()).then(function(r){return r.json()}).then(function(list){
-  list.sort(function(a,b){return a.date<b.date?1:-1});
-  document.getElementById('grid').innerHTML=list.map(card).join('');
-}).catch(function(e){
-  document.getElementById('grid').innerHTML='<p class="note">moods.json did not load: '+e+'</p>';
-});
-</script>
+<script src="app.js"></script>
 </body>
 </html>
