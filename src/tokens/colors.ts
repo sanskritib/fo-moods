@@ -14,13 +14,16 @@ export interface ColorToken extends Token {
   reads: string;
 }
 
+// Family hues follow the feelings wheel: happy yellow, sad blue, angry red,
+// fearful gold, surprised purple, disgusted green-grey, bad green.
 export const colors = new TokenSet<ColorToken>('color', [
   { id: 'saffron', label: 'Saffron', hex: '#F9C74F', ink: '#2C2407', family: 'happy', temperature: 'warm', reads: 'open, uncomplicated lift' },
   { id: 'blush', label: 'Blush', hex: '#FF8FA3', ink: '#3A0A14', family: 'happy', temperature: 'warm', reads: 'soft, fond, a little exposed' },
   { id: 'slate', label: 'Slate', hex: '#577590', ink: '#E8F0F5', family: 'sad', temperature: 'cool', reads: 'quiet, low energy, settled' },
   { id: 'signal', label: 'Signal', hex: '#F94144', ink: '#300B0D', family: 'angry', temperature: 'warm', reads: 'pressure, urgency, heat' },
-  { id: 'violet', label: 'Violet', hex: '#9B5DE5', ink: '#1E0E35', family: 'fearful', temperature: 'cool', reads: 'alert, uncertain, watchful' },
-  { id: 'cyan', label: 'Cyan', hex: '#00B4D8', ink: '#062A34', family: 'surprised', temperature: 'cool', reads: 'sudden, bright, unresolved' },
+  { id: 'amber', label: 'Amber', hex: '#E8952F', ink: '#2A1604', family: 'fearful', temperature: 'warm', reads: 'exposed, on edge, bracing for it' },
+  { id: 'violet', label: 'Violet', hex: '#9B5DE5', ink: '#1E0E35', family: 'surprised', temperature: 'cool', reads: 'sudden, unresolved, still catching up' },
+  { id: 'cyan', label: 'Cyan', hex: '#00B4D8', ink: '#062A34', family: 'surprised', temperature: 'cool', reads: 'bright shock, the louder end of surprise' },
   { id: 'moss', label: 'Moss', hex: '#7CB518', ink: '#172604', family: 'disgusted', temperature: 'neutral', reads: 'off, sour, pulling away' },
   { id: 'fern', label: 'Fern', hex: '#6FB07F', ink: '#10231A', family: 'bad', temperature: 'neutral', reads: 'depleted, stretched thin, running on empty' },
   { id: 'sand', label: 'Sand', hex: '#E4C9A0', ink: '#2E2314', family: 'bad', temperature: 'neutral', reads: 'flat, steady, nothing much happening' }

@@ -6,7 +6,7 @@ feeling is a new arrangement rather than new code.
 
 | Axis | Type | Token ids | What it carries |
 | --- | --- | --- | --- |
-| Colour | `ColorToken` | saffron, blush, slate, signal, violet, cyan, moss, fern, sand | Temperature and intensity, read before any shape registers. Also carries the family |
+| Colour | `ColorToken` | saffron, blush, slate, signal, amber, violet, cyan, moss, fern, sand | Temperature and intensity, read before any shape registers. Also carries the family |
 | Eyes | `EyeToken` | arched, downturned, slanted, wide, round, asymmetric, sleepy, wink | The specific emotion. Does most of the work |
 | Mouth | `MouthToken` | grin, frown, flat, small, oh, wavy, smirk | Confirms or undercuts the eyes |
 | Shape | `ShapeToken` | round, weighted, spiked, contracted, tall, lopsided | Body language: where the mass sits, how sharp the edges are |
@@ -14,16 +14,16 @@ feeling is a new arrangement rather than new code.
 
 ## Families, from the feelings wheel
 
-Colour carries the family, so a shade never drifts away from its core. Seven
-cores: happy, sad, angry, fearful, disgusted, surprised, bad.
+Colour carries the family, so a shade never drifts away from its core, and the
+hues follow the wheel: fearful is gold, surprised is purple.
 
 | Family | Colours | Core preset |
 | --- | --- | --- |
 | happy | saffron, blush | Happy |
 | sad | slate | Sad |
 | angry | signal | Angry |
-| fearful | violet | Fear |
-| surprised | cyan | Surprise |
+| fearful | amber | Fear |
+| surprised | violet, cyan | Surprise |
 | disgusted | moss | Disgust |
 | bad | fern, sand | Bad |
 
@@ -37,8 +37,8 @@ an ordinary day: tired, stressed, bored, busy. Not an event, a condition.
 | Happy | saffron | arched | grin | round | buoyant |
 | Sad | slate | downturned | frown | weighted | drift |
 | Angry | signal | slanted | flat | spiked | flare |
-| Fear | violet | wide | small | contracted | tremble |
-| Surprise | cyan | round | oh | tall | pop |
+| Fear | amber | wide | small | contracted | tremble |
+| Surprise | violet | round | oh | tall | pop |
 | Disgust | moss | asymmetric | wavy | lopsided | recoil |
 | Bad | fern | sleepy | flat | weighted | drift |
 

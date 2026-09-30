@@ -21,14 +21,14 @@ const emotions = {
     face: '<path d="M65 93 L92 104"/><path d="M128 104 L155 93"/><path d="M82 142 L138 142"/>'
   },
   fear: {
-    label: 'Fear', color: '#9B5DE5', ink: '#1E0E35', glow: '#9B5DE5',
+    label: 'Fear', color: '#E8952F', ink: '#2A1604', glow: '#E8952F',
     eyes: 'Wide, lifted ovals', shape: 'Contracted, irregular ring', motion: 'Small tremble', animation: 'tremble',
     description: 'Alert and uncertain. The shape pulls inward in a few places, while the large eyes do the immediate reading.',
     path: 'M109 34 C143 25 176 49 177 80 C194 104 176 126 179 151 C159 174 137 184 110 179 C84 190 55 171 45 146 C31 122 45 101 40 77 C55 47 79 28 109 34 Z',
     face: '<ellipse cx="79" cy="101" rx="10" ry="15"/><ellipse cx="141" cy="101" rx="10" ry="15"/><path d="M95 142 Q110 132 125 142"/>'
   },
   surprise: {
-    label: 'Surprise', color: '#00B4D8', ink: '#062A34', glow: '#00B4D8',
+    label: 'Surprise', color: '#9B5DE5', ink: '#1E0E35', glow: '#9B5DE5',
     eyes: 'Open round eyes', shape: 'Tall expanded ring', motion: 'Quick pop', animation: 'pop',
     description: 'An instant of expansion. The blob goes tall and open before the feeling resolves into something else.',
     path: 'M110 20 C147 23 172 57 169 91 C187 124 162 185 110 198 C58 185 33 124 51 91 C48 57 73 23 110 20 Z',
@@ -40,10 +40,17 @@ const emotions = {
     description: 'A clear move-away signal. The ring shifts off balance and the expression stays asymmetrical rather than merely angry.',
     path: 'M109 34 C152 30 180 52 183 93 C191 132 162 175 123 183 C91 197 48 175 38 138 C29 108 49 79 52 56 C71 36 88 32 109 34 Z',
     face: '<path d="M66 101 Q78 109 91 96"/><path d="M129 96 Q142 90 154 98"/><path d="M84 142 Q106 132 137 143"/>'
+  },
+  bad: {
+    label: 'Bad', color: '#6FB07F', ink: '#10231A', glow: '#6FB07F',
+    eyes: 'Flat lids', shape: 'Low, weighted ring', motion: 'Slow downward drift', animation: 'drift',
+    description: 'Not an event, a condition: tired, stressed, bored, busy. The everyday register the original six missed.',
+    path: 'M110 42 C151 41 181 65 177 109 C173 158 145 187 105 180 C63 174 36 147 43 103 C49 61 72 41 110 42 Z',
+    face: '<path d="M68 100 L92 100"/><path d="M128 100 L152 100"/><path d="M82 142 L138 142"/>'
   }
 };
 
-const order = ['happy','sad','angry','fear','surprise','disgust'];
+const order = ['happy','sad','angry','fear','surprise','disgust','bad'];
 const blob = document.getElementById('blob');
 const controls = document.getElementById('controls');
 let selected = 'happy';
@@ -81,3 +88,4 @@ order.forEach(key => {
 });
 
 render(selected);
+

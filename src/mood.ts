@@ -96,13 +96,13 @@ export class Mood {
   }
 }
 
-/** Ring one of the wheel: the six the live app ships with, as compositions. */
+/** Ring one of the wheel: the cores, as compositions. */
 export const presets: Record<string, Mood> = {
   happy: Mood.from({ name: 'Happy', color: 'saffron', eyes: 'arched', mouth: 'grin', shape: 'round', motion: 'buoyant', note: 'Warm, open, uncomplicated joy. The base positive state.' }),
   sad: Mood.from({ name: 'Sad', color: 'slate', eyes: 'downturned', mouth: 'frown', shape: 'weighted', motion: 'drift', note: 'Quiet and low energy, weight settling toward the bottom.' }),
   angry: Mood.from({ name: 'Angry', color: 'signal', eyes: 'slanted', mouth: 'flat', shape: 'spiked', motion: 'flare', note: 'High energy held under pressure, edges gone sharp.' }),
-  fear: Mood.from({ name: 'Fear', color: 'violet', eyes: 'wide', mouth: 'small', shape: 'contracted', motion: 'tremble', note: 'Alert and uncertain, the eyes doing the reading.' }),
-  surprise: Mood.from({ name: 'Surprise', color: 'cyan', eyes: 'round', mouth: 'oh', shape: 'tall', motion: 'pop', note: 'One instant of expansion before it resolves.' }),
+  fear: Mood.from({ name: 'Fear', color: 'amber', eyes: 'wide', mouth: 'small', shape: 'contracted', motion: 'tremble', note: 'Alert and uncertain, the eyes doing the reading.' }),
+  surprise: Mood.from({ name: 'Surprise', color: 'violet', eyes: 'round', mouth: 'oh', shape: 'tall', motion: 'pop', note: 'One instant of expansion before it resolves.' }),
   disgust: Mood.from({ name: 'Disgust', color: 'moss', eyes: 'asymmetric', mouth: 'wavy', shape: 'lopsided', motion: 'recoil', note: 'A move-away signal, asymmetric rather than angry.' }),
   bad: Mood.from({ name: 'Bad', color: 'fern', eyes: 'sleepy', mouth: 'flat', shape: 'weighted', motion: 'drift', note: 'Not an event, a condition: depleted, stretched, running low.' })
 };
@@ -129,8 +129,8 @@ export const shades: Record<string, Mood> = {
   jealous: Mood.from({ name: 'Jealous', color: 'moss', eyes: 'asymmetric', mouth: 'flat', shape: 'spiked', motion: 'flare' }),
   critical: Mood.from({ name: 'Critical', color: 'sand', eyes: 'slanted', mouth: 'flat', shape: 'lopsided', motion: 'recoil' }),
 
-  anxious: Mood.from({ name: 'Anxious', color: 'violet', eyes: 'wide', mouth: 'small', shape: 'contracted', motion: 'tremble' }),
-  insecure: Mood.from({ name: 'Insecure', color: 'violet', eyes: 'downturned', mouth: 'flat', shape: 'contracted', motion: 'tremble' }),
+  anxious: Mood.from({ name: 'Anxious', color: 'amber', eyes: 'wide', mouth: 'small', shape: 'contracted', motion: 'tremble' }),
+  insecure: Mood.from({ name: 'Insecure', color: 'amber', eyes: 'downturned', mouth: 'flat', shape: 'contracted', motion: 'tremble' }),
 
   disapproving: Mood.from({ name: 'Disapproving', color: 'moss', eyes: 'slanted', mouth: 'flat', shape: 'lopsided', motion: 'recoil' }),
   hesitant: Mood.from({ name: 'Hesitant', color: 'moss', eyes: 'wide', mouth: 'small', shape: 'contracted', motion: 'tremble' }),
