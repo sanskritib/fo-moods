@@ -1,41 +1,82 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>fo moods</title>
-<style>
-:root{--bg:#0b0b0f;--fg:#f3f0ea;--dim:#8a8798;--card:#13131a;--line:#1f1f29}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);padding:56px 24px 96px;
-  font-family:ui-sans-serif,-apple-system,"Segoe UI",Inter,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
-header{max-width:1000px;margin:0 auto 44px}
-h1{font-size:30px;font-weight:600;margin:0 0 10px;letter-spacing:-.02em}
-p.sub{color:var(--dim);margin:0;font-size:15px;line-height:1.55;max-width:58ch}
-main{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:26px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px 20px 18px}
-.card svg{display:block;width:100%;height:auto}
-.name{font-size:17px;font-weight:600;margin:16px 0 3px;letter-spacing:-.01em}
-.date{color:var(--dim);font-size:12.5px;margin:0 0 11px}
-.note{color:#b8b5c5;font-size:13px;line-height:1.5;margin:0 0 15px}
-.axes{display:grid;gap:7px}
-.axis{display:flex;align-items:center;gap:9px;font-size:10px;color:var(--dim);letter-spacing:.09em;text-transform:uppercase}
-.axis span{width:62px;flex:none}
-.axis .bar{flex:1;height:3px;background:#24242f;border-radius:2px;overflow:hidden}
-.axis .bar i{display:block;height:100%;border-radius:2px}
-footer{max-width:1000px;margin:64px auto 0;color:var(--dim);font-size:13px;line-height:1.6;border-top:1px solid var(--line);padding-top:22px}
-code{color:#cfc9e0;font-size:12.5px}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>fo moods</title>
+  <style>
+    :root { --bg:#0a0a0f; --panel:#14141d; --line:#282837; --fg:#f7f4ee; --muted:#9b99ab; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:radial-gradient(circle at 50% -20%,#242331 0,#0a0a0f 48%); color:var(--fg); font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    main { width:min(1040px,calc(100% - 40px)); margin:0 auto; padding:72px 0 84px; }
+    header { max-width:680px; }
+    .eyebrow { color:var(--muted); font-size:12px; letter-spacing:.13em; text-transform:uppercase; margin:0 0 14px; }
+    h1 { font-size:clamp(36px,6vw,68px); letter-spacing:-.055em; line-height:.98; margin:0; font-weight:650; }
+    .intro { max-width:56ch; color:var(--muted); font-size:16px; line-height:1.55; margin:22px 0 0; }
+    .stage { background:linear-gradient(145deg,#171722,#101016); border:1px solid var(--line); border-radius:30px; margin-top:46px; padding:clamp(24px,5vw,52px); display:grid; grid-template-columns:minmax(260px,1fr) minmax(240px,.78fr); align-items:center; gap:32px; min-height:470px; overflow:hidden; }
+    .blob-wrap { position:relative; display:grid; place-items:center; min-height:320px; }
+    .blob-wrap:before { content:""; width:78%; aspect-ratio:1; position:absolute; border-radius:50%; background:var(--glow); filter:blur(58px); opacity:.26; transition:background .45s ease; }
+    #blob { width:min(100%,360px); position:relative; overflow:visible; }
+    .stage-copy { align-self:center; }
+    .label { color:var(--muted); font-size:12px; letter-spacing:.11em; text-transform:uppercase; margin:0 0 12px; }
+    h2 { font-size:clamp(28px,4vw,46px); letter-spacing:-.045em; margin:0 0 12px; }
+    .description { color:#c7c4d0; font-size:16px; line-height:1.5; margin:0; min-height:48px; }
+    .attributes { display:grid; gap:11px; margin:28px 0 0; }
+    .attribute { display:grid; grid-template-columns:92px 1fr; gap:12px; border-top:1px solid var(--line); padding-top:11px; font-size:13px; }
+    .attribute dt { color:var(--muted); }
+    .attribute dd { margin:0; color:#eeebf4; }
+    .state-picker { margin-top:32px; }
+    .state-picker p { color:var(--muted); font-size:12px; letter-spacing:.11em; text-transform:uppercase; margin:0 0 12px; }
+    .controls { display:flex; flex-wrap:wrap; gap:9px; }
+    button { appearance:none; border:1px solid var(--line); background:#13131b; color:#d4d1dc; padding:10px 13px; border-radius:999px; font:inherit; font-size:14px; cursor:pointer; transition:transform .18s ease,border-color .18s ease,color .18s ease,background .18s ease; }
+    button:hover { transform:translateY(-2px); border-color:#5a586d; color:white; }
+    button[aria-pressed="true"] { background:var(--state); border-color:var(--state); color:#111119; font-weight:650; }
+    .rules { margin-top:56px; }
+    .rules h3 { font-size:20px; margin:0 0 18px; letter-spacing:-.02em; }
+    .rule-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    .rule { border:1px solid var(--line); border-radius:18px; background:#101016; padding:18px; }
+    .rule span { color:var(--muted); display:block; font-size:12px; text-transform:uppercase; letter-spacing:.1em; margin-bottom:9px; }
+    .rule p { margin:0; color:#c8c5d0; font-size:14px; line-height:1.48; }
+    footer { color:#777488; border-top:1px solid var(--line); padding-top:22px; margin-top:56px; font-size:13px; line-height:1.5; }
+    @keyframes buoyant { 0%,100% { transform:translateY(0) scale(1); } 50% { transform:translateY(-13px) scale(1.025); } }
+    @keyframes drift { 0%,100% { transform:translate(0,0) rotate(0); } 50% { transform:translate(-7px,10px) rotate(-2deg); } }
+    @keyframes flare { 0%,100% { transform:scale(1) rotate(0); } 35% { transform:scale(1.035) rotate(-1.2deg); } 65% { transform:scale(.99) rotate(1.2deg); } }
+    @keyframes tremble { 0%,100% { transform:translateX(0) scale(1); } 20% { transform:translateX(-4px) scale(.98); } 40% { transform:translateX(4px) scale(1.015); } 60% { transform:translateX(-3px) scale(.99); } 80% { transform:translateX(3px) scale(1.01); } }
+    @keyframes pop { 0%,100% { transform:scale(1); } 35% { transform:scale(1.08); } 52% { transform:scale(.98); } }
+    @keyframes recoil { 0%,100% { transform:translateX(0) rotate(0); } 38% { transform:translateX(-8px) rotate(-2.5deg); } 65% { transform:translateX(3px) rotate(1deg); } }
+    #blob[data-motion="buoyant"] { animation:buoyant 2.3s ease-in-out infinite; }
+    #blob[data-motion="drift"] { animation:drift 4.8s ease-in-out infinite; }
+    #blob[data-motion="flare"] { animation:flare .86s ease-in-out infinite; }
+    #blob[data-motion="tremble"] { animation:tremble .58s ease-in-out infinite; }
+    #blob[data-motion="pop"] { animation:pop 1.3s cubic-bezier(.2,.8,.2,1) infinite; }
+    #blob[data-motion="recoil"] { animation:recoil 1.8s ease-in-out infinite; }
+    @media (max-width:720px) { main{width:min(100% - 28px,1040px);padding-top:42px}.stage{grid-template-columns:1fr;padding:26px;gap:8px}.blob-wrap{min-height:280px}.rule-grid{grid-template-columns:1fr}.attribute{grid-template-columns:78px 1fr} }
+    @media (prefers-reduced-motion:reduce) { #blob { animation:none!important; } button { transition:none; } }
+  </style>
 </head>
 <body>
-<header>
-  <h1>fo moods</h1>
-  <p class="sub">One blob a day. Three axes decide it - energy sets saturation, certainty sets how sharp or soft the edge is, warmth swings the hue from cool blue through magenta to amber. Eyes follow from the mix. No emotion is hand-picked from a list.</p>
-</header>
-<main id="grid"></main>
-<footer>
-  Shape, eyes and colour are generated from <code>moods.json</code> by <code>app.js</code>. Fo appends one entry a day.
-</footer>
-<script src="app.js"></script>
+  <main>
+    <header>
+      <p class="eyebrow">A visual vocabulary for Fo</p>
+      <h1>fo moods</h1>
+      <p class="intro">Six core emotions, each with a fixed colour, eye treatment, outer vector and motion. The outer ring is never random. It is a named shape system that can later be swapped for Sanskriti's Figma SVG paths.</p>
+    </header>
+    <section class="stage" aria-live="polite">
+      <div class="blob-wrap"><svg id="blob" viewBox="0 0 220 220" role="img" aria-label="happy blob"></svg></div>
+      <div class="stage-copy">
+        <p class="label">Current state</p><h2 id="emotion-name">Happy</h2><p class="description" id="emotion-description"></p>
+        <dl class="attributes">
+          <div class="attribute"><dt>Colour</dt><dd id="colour"></dd></div>
+          <div class="attribute"><dt>Eyes</dt><dd id="eyes"></dd></div>
+          <div class="attribute"><dt>Outer ring</dt><dd id="shape"></dd></div>
+          <div class="attribute"><dt>Motion</dt><dd id="motion"></dd></div>
+        </dl>
+      </div>
+    </section>
+    <section class="state-picker" aria-label="Choose an emotion"><p>Explore the six</p><div class="controls" id="controls"></div></section>
+    <section class="rules"><h3>The mapping rules</h3><div class="rule-grid"><article class="rule"><span>Colour</span><p>Hue communicates emotional temperature. Saturation stays high enough to read at a glance, but every state also has a name and expression.</p></article><article class="rule"><span>Eyes</span><p>Eyes carry the quickest signal. Their curve, openness and angle follow the emotion rather than being decorative.</p></article><article class="rule"><span>Outer ring and motion</span><p>Each emotion has a fixed SVG path and a specific animation. Higher tension becomes sharper or more unstable. Lower energy becomes heavier or slower.</p></article></div></section>
+    <footer>Version one uses code-drawn vectors. Figma SVGs can replace each path without changing the emotion model.</footer>
+  </main>
+  <script src="app.js"></script>
 </body>
 </html>

@@ -2,32 +2,25 @@
 
 A small web app where Fo shows up as a blob instead of a sentence.
 
-## The rules
+## Version one: six core emotions
 
-Three axes, 0 to 1. No emotion is picked from a list - the mix *is* the emotion.
+The first public vocabulary uses six classic core emotions:
 
-| axis | what it drives |
-| --- | --- |
-| `energy` | colour saturation, how stretched the blob is, how open the eyes are |
-| `certainty` | edge quality: 1 is crisp, 0 is blurred and lumpy |
-| `warmth` | hue, from cool blue (0) to amber (1) |
+| emotion | colour | eyes | outer vector | motion |
+| --- | --- | --- | --- | --- |
+| happy | warm yellow `#F9C74F` | curved U-shapes | soft, round, gently top-heavy | buoyant bounce |
+| sad | muted blue `#577590` | downturned lids | low and weighted | slow drift |
+| angry | red `#F94144` | narrow, slanted eyes | taut with points | tense flare |
+| fear | violet `#9B5DE5` | wide lifted ovals | contracted and irregular | small tremble |
+| surprise | cyan `#00B4D8` | open round eyes | tall and expanded | quick pop |
+| disgust | green `#7CB518` | asymmetric narrowed lids | lopsided and recoiling | recoil |
 
-Eye shape falls out of the same numbers:
+The outer ring is not random. Each emotion has an explicit SVG path in `app.js`, so it redraws consistently. Motion is an independent CSS animation mapped to the same state.
 
-- `certainty < 0.4` -> dots
-- `energy > 0.72` -> alert ovals
-- `energy < 0.34` -> lidded
-- `warmth > 0.64` -> squint
-- otherwise -> round
+## Next design handoff
 
-Blob shape is generated from a seeded wobble, so the same date and name always redraw the same blob, and lower certainty means a lumpier outline.
+Sanskriti can export the final outer-ring SVGs from Figma. Replace each `path` in `app.js` while preserving its `label`, `colour`, `eyes`, and `motion` attributes. This keeps the visual system intact while changing only the art direction.
 
-## Adding a mood
+## Hosting
 
-Append to `moods.json`:
-
-```json
-{ "date": "2026-10-01", "name": "quietly pleased", "energy": 0.4, "certainty": 0.8, "warmth": 0.75, "note": "one line, optional" }
-```
-
-Fo appends one entry a day. To use the Figma blobs, replace `blobPath()` with the exported paths and keep the same axis inputs.
+This repository is static HTML, CSS, and JavaScript. It can deploy on GitHub Pages or any static host without a backend.
