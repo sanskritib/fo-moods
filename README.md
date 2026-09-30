@@ -24,3 +24,5 @@ Sanskriti can export the final outer-ring SVGs from Figma. Replace each `path` i
 ## Hosting
 
 This repository is static HTML, CSS, and JavaScript. It can deploy on GitHub Pages or any static host without a backend.
+
+Every push to `main` publishes the site through `.github/workflows/deploy-pages.yml`.
