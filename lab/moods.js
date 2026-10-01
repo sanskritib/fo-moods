@@ -160,16 +160,18 @@ export function pathToLottie(d) {
 // ---------- Lottie generator: tokens in, animation out ----------
 const ez = { i: { x: [.45], y: [1] }, o: { x: [.55], y: [0] } };
 const kf = (frames, values) => ({ a: 1, k: frames.map((t, j) => j === frames.length - 1 ? { t, s: values[j] } : { t, s: values[j], ...ez }) });
+// position is a spatial property: lottie-web needs to/ti tangents on its keyframes
+const kfp = (frames, values) => ({ a: 1, k: frames.map((t, j) => j === frames.length - 1 ? { t, s: values[j] } : { t, s: values[j], ...ez, to: [0, 0, 0], ti: [0, 0, 0] }) });
 const still = v => ({ a: 0, k: v });
 function motionKeys(anim, amp = 1) {
   const C = 110, P = (x, y) => [C + x * amp, C + y * amp, 0], S = (x, y) => [100 + (x - 100) * amp, 100 + (y - 100) * amp, 100];
   switch (anim) {
-    case 'buoyant': return { op: 120, p: kf([0, 60, 120], [P(0, 0), P(0, -12), P(0, 0)]), s: kf([0, 60, 120], [S(100, 100), S(97, 104), S(100, 100)]), r: still(0) };
-    case 'drift':   return { op: 200, p: kf([0, 100, 200], [P(0, 0), P(0, 9), P(0, 0)]), s: kf([0, 100, 200], [S(100, 100), S(103, 97), S(100, 100)]), r: still(0) };
+    case 'buoyant': return { op: 120, p: kfp([0, 60, 120], [P(0, 0), P(0, -12), P(0, 0)]), s: kf([0, 60, 120], [S(100, 100), S(97, 104), S(100, 100)]), r: still(0) };
+    case 'drift':   return { op: 200, p: kfp([0, 100, 200], [P(0, 0), P(0, 9), P(0, 0)]), s: kf([0, 100, 200], [S(100, 100), S(103, 97), S(100, 100)]), r: still(0) };
     case 'flare':   return { op: 60,  p: still(P(0, 0)), s: kf([0, 12, 60], [S(100, 100), S(109, 109), S(100, 100)]), r: still(0) };
-    case 'tremble': return { op: 24,  p: kf([0, 6, 12, 18, 24], [P(0, 0), P(-2, 0), P(2, 0), P(-1, 0), P(0, 0)]), s: still([100, 100, 100]), r: kf([0, 6, 12, 18, 24], [[0], [-2.5 * amp], [2.5 * amp], [-2 * amp], [0]]) };
+    case 'tremble': return { op: 24,  p: kfp([0, 6, 12, 18, 24], [P(0, 0), P(-2, 0), P(2, 0), P(-1, 0), P(0, 0)]), s: still([100, 100, 100]), r: kf([0, 6, 12, 18, 24], [[0], [-2.5 * amp], [2.5 * amp], [-2 * amp], [0]]) };
     case 'pop':     return { op: 90,  p: still(P(0, 0)), s: kf([0, 12, 30, 90], [S(100, 100), S(114, 114), S(100, 100), S(100, 100)]), r: still(0) };
-    case 'recoil':  return { op: 100, p: kf([0, 25, 100], [P(0, 0), P(-10, 0), P(0, 0)]), s: still([100, 100, 100]), r: kf([0, 25, 100], [[0], [-7 * amp], [0]]) };
+    case 'recoil':  return { op: 100, p: kfp([0, 25, 100], [P(0, 0), P(-10, 0), P(0, 0)]), s: still([100, 100, 100]), r: kf([0, 25, 100], [[0], [-7 * amp], [0]]) };
   }
 }
 export function buildLottie(e, amp = 1) {

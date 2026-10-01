@@ -1,6 +1,6 @@
 // fo moods lab - temp page. Every tile reads the same seven states from moods.js,
 // so switching mood up top re-skins every library at once.
-import { emotions, order, motionKnobs, peepFace, palette, facePaths, buildLottie } from './moods.js';
+import { emotions, order, motionKnobs, peepFace, palette, facePaths, buildLottie } from './moods.js?v=2';
 
 const PAPER = 'https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.81/+esm';
 const DOTLOTTIE = 'https://cdn.jsdelivr.net/npm/@lottiefiles/dotlottie-web@0.80.0/+esm';
@@ -23,6 +23,8 @@ function loadScript(src) {
 }
 let gsapReady;
 const getGsap = () => gsapReady ||= loadScript(GSAP).then(() => loadScript(MORPH)).then(() => { gsap.registerPlugin(MorphSVGPlugin); return gsap; });
+// the grain and metaballs shaders need their noise image fully loaded before mounting
+const noiseReady = P => { const img = P.getShaderNoiseTexture(); return img.complete && img.naturalWidth ? Promise.resolve() : new Promise(r => img.addEventListener('load', r, { once: true })); };
 
 // ---------- small builders ----------
 const sizing = { u_fit: 2, u_scale: 1, u_rotation: 0, u_originX: .5, u_originY: .5, u_offsetX: 0, u_offsetY: 0, u_worldWidth: 0, u_worldHeight: 0 };
@@ -130,6 +132,7 @@ addTile({
   async init(t, e, k) {
     t.art.innerHTML = '<div class="shader fill"></div>';
     t.P = await import(PAPER);
+    await noiseReady(t.P);
     t.mount = new t.P.ShaderMount(t.art.firstChild, t.P.metaballsFragmentShader, this.uni(t, e, k), undefined, k.speed);
   },
   uni(t, e, k) {
@@ -149,6 +152,7 @@ addTile({
   async init(t, e, k) {
     t.art.innerHTML = '<div class="shader fill"></div>';
     t.P = await import(PAPER);
+    await noiseReady(t.P);
     t.mount = new t.P.ShaderMount(t.art.firstChild, t.P.grainGradientFragmentShader, this.uni(t, e, k), undefined, k.speed);
   },
   uni(t, e, k) {
