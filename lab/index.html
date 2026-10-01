@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>fo moods lab (temp)</title>
+  <style>
+    :root { --bg:#0a0a0f; --panel:#14141d; --line:#282837; --fg:#f7f4ee; --muted:#9b99ab; --state:#F9C74F; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:radial-gradient(circle at 50% -20%,#242331 0,#0a0a0f 48%); color:var(--fg); font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    main { width:min(1180px,calc(100% - 32px)); margin:0 auto; padding:48px 0 80px; }
+    .eyebrow { color:var(--muted); font-size:12px; letter-spacing:.13em; text-transform:uppercase; margin:0 0 12px; }
+    h1 { font-size:clamp(32px,5vw,56px); letter-spacing:-.05em; line-height:1; margin:0; font-weight:650; }
+    .intro { max-width:62ch; color:var(--muted); line-height:1.55; margin:16px 0 0; }
+    .bar { position:sticky; top:0; z-index:5; margin:28px -8px 0; padding:12px 8px; background:rgba(10,10,15,.82); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+    .bar .now { margin-right:auto; min-width:200px; }
+    .bar .now b { font-size:22px; letter-spacing:-.03em; }
+    .bar .now span { display:block; color:var(--muted); font-size:12px; margin-top:2px; }
+    button { appearance:none; border:1px solid var(--line); background:#191923; color:var(--fg); border-radius:999px; padding:9px 14px; font:inherit; font-size:13px; cursor:pointer; }
+    #moods button { border-color:color-mix(in srgb,var(--state) 45%,var(--line)); }
+    #moods button[aria-pressed="true"] { background:var(--state); color:#111; border-color:var(--state); }
+    #moods { display:flex; flex-wrap:wrap; gap:6px; }
+    #tour { background:var(--fg); color:#111; }
+    #hero { margin-top:28px; }
+    #grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:18px; margin-top:18px; }
+    .tile { background:linear-gradient(145deg,#171722,#101016); border:1px solid var(--line); border-radius:24px; overflow:hidden; display:flex; flex-direction:column; }
+    .tile.hero { display:grid; grid-template-columns:minmax(300px,1.2fr) 1fr; }
+    .stage-box { position:relative; aspect-ratio:1; background:#0d0c14; overflow:hidden; }
+    .tile.hero .stage-box { aspect-ratio:auto; min-height:440px; }
+    .art { position:absolute; inset:0; display:grid; place-items:center; }
+    .fill { position:absolute; inset:0; width:100%; height:100%; }
+    .shader { position:absolute; inset:0; }
+    .blob-svg { position:relative; width:62%; overflow:visible; filter:drop-shadow(0 18px 40px rgba(0,0,0,.35)); }
+    .blob-svg .idle, .blob-svg .hit { transform-box:fill-box; transform-origin:center; }
+    .blob-svg .hit { cursor:pointer; }
+    .err { position:absolute; inset:auto 12px 12px; background:#2a1215; color:#ffb4b8; border-radius:12px; padding:10px 12px; font-size:12px; }
+    .badge { position:absolute; left:12px; bottom:4px; color:var(--muted); font-size:11px; }
+    .meta { padding:20px 22px 22px; }
+    .num { color:var(--muted); font-size:11px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 6px; }
+    h3 { margin:0; font-size:21px; letter-spacing:-.03em; }
+    .lib { color:var(--state); font-size:12px; margin:6px 0 14px; transition:color .4s; }
+    .how { color:#c7c4d0; font-size:13.5px; line-height:1.5; margin:0 0 10px; }
+    .how span { display:block; color:var(--muted); font-size:11px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:2px; }
+    .ctls { display:grid; gap:10px; margin-top:14px; border-top:1px solid var(--line); padding-top:14px; }
+    .ctl { display:grid; gap:5px; font-size:12px; color:var(--muted); }
+    .ctl b { color:var(--fg); font-weight:500; }
+    .ctl input { width:100%; accent-color:var(--state); }
+    .ctl select { background:#191923; color:var(--fg); border:1px solid var(--line); border-radius:10px; padding:7px; font:inherit; }
+    .mini { justify-self:start; }
+    .lw svg { width:100% !important; height:100% !important; }
+    .peep-wrap { display:grid; place-items:center; }
+    .peep { width:70%; border-radius:50%; }
+    .css-glow { background:conic-gradient(from var(--a),var(--c1),var(--c2),var(--c3),var(--c1)); filter:blur(48px) saturate(1.2); opacity:.75; animation:spin var(--spin,8s) linear infinite; transform:scale(.8); }
+    @property --a { syntax:'<angle>'; inherits:false; initial-value:0deg; }
+    @keyframes spin { to { --a:360deg; } }
+    [data-motion="buoyant"] { animation:buoyant 1.2s ease-in-out infinite; }
+    [data-motion="drift"] { animation:drift 3.2s ease-in-out infinite; }
+    [data-motion="flare"] { animation:flare .5s ease-in-out infinite; }
+    [data-motion="tremble"] { animation:tremble .35s linear infinite; }
+    [data-motion="pop"] { animation:pop 1.5s cubic-bezier(.2,1.6,.4,1) infinite; }
+    [data-motion="recoil"] { animation:recoil 1.6s ease-in-out infinite; }
+    @keyframes buoyant { 50% { transform:translateY(-4%) scale(.98,1.03); } }
+    @keyframes drift { 50% { transform:translateY(3%) scale(1.02,.98); } }
+    @keyframes flare { 50% { transform:scale(1.06); } }
+    @keyframes tremble { 25% { transform:translateX(-1%) rotate(-2deg); } 75% { transform:translateX(1%) rotate(2deg); } }
+    @keyframes pop { 0%,60%,100% { transform:scale(1); } 20% { transform:scale(1.1); } }
+    @keyframes recoil { 40% { transform:translateX(-4%) rotate(-6deg); } }
+    .credits { margin-top:44px; border-top:1px solid var(--line); padding-top:24px; color:var(--muted); font-size:13px; line-height:1.7; }
+    .credits h2 { color:var(--fg); font-size:18px; margin:0 0 8px; }
+    .credits a { color:var(--fg); }
+    @media (max-width:760px) { .tile.hero { grid-template-columns:1fr; } .tile.hero .stage-box { min-height:340px; } #grid { grid-template-columns:1fr; } }
+    @media (prefers-reduced-motion:reduce) { [data-motion] { animation:none; } }
+  </style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">fo moods · lab · temporary, delete when done</p>
+  <h1>Nine ways to make a mood move</h1>
+  <p class="intro">Every tile below reads the same seven states and token values. Pick a mood or hit Tour and they all re-skin at once, so you can compare libraries on the same feeling. Each tile says how it scales across moods and what's worth poking at.</p>
+  <div class="bar">
+    <div class="now"><b id="mood-name">Happy</b><span id="mood-line"></span></div>
+    <div id="moods"></div>
+    <button type="button" id="tour">Tour</button>
+  </div>
+  <section id="hero"></section>
+  <section id="grid"></section>
+  <section class="credits">
+    <h2>Credits (draft for the credits tile)</h2>
+    <a href="https://github.com/paper-design/shaders">Paper Shaders</a> by Lost Coast Labs, Apache-2.0 (keep LICENSE and NOTICE if we ever bundle it) ·
+    <a href="https://github.com/LottieFiles/dotlottie-web">dotLottie web</a> by LottieFiles, MIT ·
+    <a href="https://github.com/airbnb/lottie-web">lottie-web</a> by Airbnb, MIT ·
+    <a href="https://motion.dev">Motion</a>, MIT ·
+    <a href="https://gsap.com/standard-license">GSAP and MorphSVG</a>, GSAP standard no-charge license ·
+    <a href="https://www.openpeeps.com">Open Peeps</a> by Pablo Stanley, CC0, served by <a href="https://www.dicebear.com">DiceBear</a>.
+    The blob shapes, faces and generated Lottie files are ours.
+  </section>
+</main>
+<script type="module" src="./lab.js?v=1"></script>
+</body>
+</html>
