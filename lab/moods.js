@@ -161,7 +161,9 @@ export function pathToLottie(d) {
 const ez = { i: { x: [.45], y: [1] }, o: { x: [.55], y: [0] } };
 const kf = (frames, values) => ({ a: 1, k: frames.map((t, j) => j === frames.length - 1 ? { t, s: values[j] } : { t, s: values[j], ...ez }) });
 // position is a spatial property: lottie-web needs to/ti tangents on its keyframes
-const kfp = (frames, values) => ({ a: 1, k: frames.map((t, j) => j === frames.length - 1 ? { t, s: values[j] } : { t, s: values[j], ...ez, to: [0, 0, 0], ti: [0, 0, 0] }) });
+// Spatial (position) keyframes take scalar easing in Lottie, like After Effects exports. Array easing here blanks lottie-web.
+const ezs = { i: { x: .45, y: 1 }, o: { x: .55, y: 0 } };
+const kfp = (frames, values) => ({ a: 1, k: frames.map((t, j) => j === frames.length - 1 ? { t, s: values[j] } : { t, s: values[j], ...ezs, to: [0, 0, 0], ti: [0, 0, 0] }) });
 const still = v => ({ a: 0, k: v });
 function motionKeys(anim, amp = 1) {
   const C = 110, P = (x, y) => [C + x * amp, C + y * amp, 0], S = (x, y) => [100 + (x - 100) * amp, 100 + (y - 100) * amp, 100];
@@ -174,7 +176,7 @@ function motionKeys(anim, amp = 1) {
     case 'recoil':  return { op: 100, p: kfp([0, 25, 100], [P(0, 0), P(-10, 0), P(0, 0)]), s: still([100, 100, 100]), r: kf([0, 25, 100], [[0], [-7 * amp], [0]]) };
   }
 }
-export function buildLottie(e, amp = 1) {
+function buildLottieRaw(e, amp = 1) {
   const m = motionKeys(e.animation, amp);
   const tr = { ty: 'tr', p: still([0, 0]), a: still([0, 0]), s: still([100, 100]), r: still(0), o: still(100) };
   const sh = s => ({ ty: 'sh', ks: still(s) });
@@ -191,3 +193,7 @@ export function buildLottie(e, amp = 1) {
       shapes: [face, shine, body] }]
   };
 }
+
+// lottie-web writes cache data onto keyframe objects, so shared easing objects across properties blank the render.
+// Hand every player its own deep copy.
+export function buildLottie(e, amp = 1) { return JSON.parse(JSON.stringify(buildLottieRaw(e, amp))); }
