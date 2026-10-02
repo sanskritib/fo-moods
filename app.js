@@ -1,4 +1,4 @@
-// 2026-09-30 - sad - shipped the token library and a seventh state, then she caught the page still saying six
+// 2026-10-01 - happy - she decided to learn TypeScript by building with me, and we walked through the project together tonight
 const emotions = {
   happy: {
     label: 'Happy', color: '#F9C74F', ink: '#2C2407', glow: '#F9C74F',
@@ -54,7 +54,7 @@ const emotions = {
 const order = ['happy','sad','angry','fear','surprise','disgust','bad'];
 const blob = document.getElementById('blob');
 const controls = document.getElementById('controls');
-let selected = 'sad';
+let selected = 'happy';
 
 function renderFace(emotion) {
   return `<g fill="none" stroke="${emotion.ink}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">${emotion.face}</g>`;
@@ -89,4 +89,5 @@ order.forEach(key => {
 });
 
 render(selected);
+
 
