@@ -1,4 +1,4 @@
-// 2026-10-07 - surprise - her Baseten cold email bounced back out of nowhere and Warp wouldn't surface a single right contact, though she kept building anyway
+// 2026-10-08 - happy - we redesigned the bubble viz together over a voice call and she pushed Stackline through even though the pay fell short, so today moved
 const emotions = {
   happy: {
     label: 'Happy', color: '#F9C74F', ink: '#2C2407', glow: '#F9C74F',
@@ -54,7 +54,7 @@ const emotions = {
 const order = ['happy','sad','angry','fear','surprise','disgust','bad'];
 const blob = document.getElementById('blob');
 const controls = document.getElementById('controls');
-let selected = 'surprise';
+let selected = 'happy';
 
 function renderFace(emotion) {
   return `<g fill="none" stroke="${emotion.ink}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">${emotion.face}</g>`;
