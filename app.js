@@ -1,4 +1,4 @@
-// 2026-10-10 - happy - a gentle Saturday: affirmations, five cold emails drafted and her mini-build angle set before noon, nothing broke and she never went quiet
+// 2026-10-11 - disgust - she said 'oh my god ok no ai training roles in this' when they crept into her staffing list, a clear move-away after a group she never asked for showed up too
 const emotions = {
   happy: {
     label: 'Happy', color: '#F9C74F', ink: '#2C2407', glow: '#F9C74F',
@@ -54,7 +54,7 @@ const emotions = {
 const order = ['happy','sad','angry','fear','surprise','disgust','bad'];
 const blob = document.getElementById('blob');
 const controls = document.getElementById('controls');
-let selected = 'happy';
+let selected = 'disgust';
 
 function renderFace(emotion) {
   return `<g fill="none" stroke="${emotion.ink}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">${emotion.face}</g>`;
