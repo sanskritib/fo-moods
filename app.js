@@ -1,4 +1,4 @@
-// 2026-10-11 - disgust - she said 'oh my god ok no ai training roles in this' when they crept into her staffing list, a clear move-away after a group she never asked for showed up too
+// 2026-10-12 - bad - she was wiped out all day, period exhaustion, no Verde work, no walk and no JS since Wednesday, but still sent a Bobyard link to tailor and a build idea for the week's post
 const emotions = {
   happy: {
     label: 'Happy', color: '#F9C74F', ink: '#2C2407', glow: '#F9C74F',
@@ -54,7 +54,7 @@ const emotions = {
 const order = ['happy','sad','angry','fear','surprise','disgust','bad'];
 const blob = document.getElementById('blob');
 const controls = document.getElementById('controls');
-let selected = 'disgust';
+let selected = 'bad';
 
 function renderFace(emotion) {
   return `<g fill="none" stroke="${emotion.ink}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">${emotion.face}</g>`;
