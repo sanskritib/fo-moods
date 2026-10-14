@@ -1,4 +1,4 @@
-// 2026-10-12 - bad - she was wiped out all day, period exhaustion, no Verde work, no walk and no JS since Wednesday, but still sent a Bobyard link to tailor and a build idea for the week's post
+// 2026-10-13 - happy - the WAAI Seattle event got its yes and a date, she broke her own no-more-job-stuff rule for Lumeria, and she's sending her boyfriend flowers
 const emotions = {
   happy: {
     label: 'Happy', color: '#F9C74F', ink: '#2C2407', glow: '#F9C74F',
@@ -54,7 +54,7 @@ const emotions = {
 const order = ['happy','sad','angry','fear','surprise','disgust','bad'];
 const blob = document.getElementById('blob');
 const controls = document.getElementById('controls');
-let selected = 'bad';
+let selected = 'happy';
 
 function renderFace(emotion) {
   return `<g fill="none" stroke="${emotion.ink}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">${emotion.face}</g>`;
