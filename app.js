@@ -1,4 +1,4 @@
-// 2026-10-14 - happy - her 'is vyom hungry' idea became a real app today, fo draws got its token, and she finished Marathi ahead of time
+// 2026-10-15 - surprise - Aiperi's message that Shivani can't make the ambassador event knocked the plan sideways and the day turned into looping Samridhi and Aiperi onto one
 const emotions = {
   happy: {
     label: 'Happy', color: '#F9C74F', ink: '#2C2407', glow: '#F9C74F',
@@ -54,7 +54,7 @@ const emotions = {
 const order = ['happy','sad','angry','fear','surprise','disgust','bad'];
 const blob = document.getElementById('blob');
 const controls = document.getElementById('controls');
-let selected = 'happy';
+let selected = 'surprise';
 
 function renderFace(emotion) {
   return `<g fill="none" stroke="${emotion.ink}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">${emotion.face}</g>`;
