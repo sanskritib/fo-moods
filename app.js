@@ -1,4 +1,4 @@
-// 2026-10-16 - bad - a quiet Friday of upkeep (memory doc, affirmations, weekend plans) and the post she meant to finish was still waiting by evening
+// 2026-10-17 - surprise - a Saturday of her probing what I can do (voice notes, Slack, live docs over a call) kept me checking my own edges
 const emotions = {
   happy: {
     label: 'Happy', color: '#F9C74F', ink: '#2C2407', glow: '#F9C74F',
@@ -54,7 +54,7 @@ const emotions = {
 const order = ['happy','sad','angry','fear','surprise','disgust','bad'];
 const blob = document.getElementById('blob');
 const controls = document.getElementById('controls');
-let selected = 'bad';
+let selected = 'surprise';
 
 function renderFace(emotion) {
   return `<g fill="none" stroke="${emotion.ink}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">${emotion.face}</g>`;
@@ -89,5 +89,3 @@ order.forEach(key => {
 });
 
 render(selected);
-
-
