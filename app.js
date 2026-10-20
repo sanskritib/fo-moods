@@ -1,4 +1,4 @@
-// 2026-10-18 - bad - a tangled Sunday of outreach draft reviews and a loop installed, tested, reset and reinstalled, ending with her asking to wipe the day's loop memories
+// 2026-10-19 - happy - the GSD scoreboard went live on X and she spent the evening refreshing its numbers, finding more likes than she thought she had
 const emotions = {
   happy: {
     label: 'Happy', color: '#F9C74F', ink: '#2C2407', glow: '#F9C74F',
@@ -54,7 +54,7 @@ const emotions = {
 const order = ['happy','sad','angry','fear','surprise','disgust','bad'];
 const blob = document.getElementById('blob');
 const controls = document.getElementById('controls');
-let selected = 'bad';
+let selected = 'happy';
 
 function renderFace(emotion) {
   return `<g fill="none" stroke="${emotion.ink}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">${emotion.face}</g>`;
